@@ -10,10 +10,11 @@ from app.models import Task
 @pytest.fixture
 def user_data():
     return {
-        'username': 'testuser',
-        'password': 'password123',
-        'email': 'testuser@example.com',
+        "username": "testuser",
+        "password": "password123",
+        "email": "testuser@example.com",
     }
+
 
 @pytest.fixture
 def create_user(user_data):
@@ -30,11 +31,15 @@ def auth_client(create_user):
 
     client = APIClient()
 
-    client.credentials(HTTP_AUTHORIZATION=f'Bearer {access_token}')
+    client.credentials(HTTP_AUTHORIZATION=f"Bearer {access_token}")
     return client
 
 
 @pytest.fixture
 def create_task(create_user):
-    task = Task.objects.create(title='Task for Comment', description='Task description', assigned_to=create_user)
+    task = Task.objects.create(
+        title="Task for Comment",
+        description="Task description",
+        assigned_to=create_user,
+    )
     return task
