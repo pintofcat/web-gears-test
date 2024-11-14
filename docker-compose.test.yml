@@ -1,0 +1,23 @@
+# docker-compose.yml
+version: "3.9"
+services:
+  db:
+    image: postgres
+    environment:
+      POSTGRES_USER: user
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: task_manager
+    ports:
+      - "5432:5432"
+  test-web:
+    build:
+      context: .
+      args:
+        - ENVIRONMENT=dev
+    command: bash
+    volumes:
+      - .:/code
+    ports:
+      - "8000:8000"
+    depends_on:
+      - db
