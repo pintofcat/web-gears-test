@@ -1,4 +1,5 @@
-import serializers.serializer
+from rest_framework import serializers
+
 from django.db.models import QuerySet
 from rest_framework import viewsets
 from rest_framework.permissions import IsAuthenticated
@@ -14,7 +15,7 @@ class TaskViewSet(viewsets.ModelViewSet):
     serializer_class = TaskSerializer
     permission_classes = [IsAuthenticated]
 
-    def perform_create(self, serializer: serializers.serializer.Serializer) -> None:
+    def perform_create(self, serializer: serializers.Serializer) -> None:
         serializer.save(assigned_to=self.request.user)
 
 
@@ -29,5 +30,5 @@ class TaskCommentViewSet(viewsets.ModelViewSet):
     def get_queryset(self) -> QuerySet:
         return TaskComment.objects.filter(task__assigned_to=self.request.user)
 
-    def perform_create(self, serializer: serializers.serializer.Serializer):
+    def perform_create(self, serializer: serializers.Serializer):
         serializer.save(user=self.request.user)
